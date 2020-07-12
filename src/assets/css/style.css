@@ -1,0 +1,12 @@
+body {
+  padding: 1rem 2rem;
+  font-family: Futura, Josefin Sans, sans-serif, Helvetica;
+  background-color: #EFEFEF;
+}
+.app-header {
+  padding: 10px;
+  border-bottom: 2px solid #999;
+  background-image: url("../img/logo.svg");
+  background-repeat: no-repeat;
+  height: 36px;
+}
