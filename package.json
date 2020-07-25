@@ -10,6 +10,8 @@
     "build": "parcel build index.html --out-dir=dist"
   },
   "dependencies": {
+    "@aws-amplify/ui-components": "^0.5.4",
+    "aws-amplify": "^3.0.20",
     "riot": "^4.13.2"
   },
   "devDependencies": {

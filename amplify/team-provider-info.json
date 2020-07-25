@@ -10,6 +10,11 @@
             "StackName": "amplify-boyaki-production-172341",
             "StackId": "arn:aws:cloudformation:us-east-1:531660037564:stack/amplify-boyaki-production-172341/1f5bd540-c419-11ea-a7a3-127e1ad2bd25",
             "AmplifyAppId": "d1vfqe4zpg0nmw"
+        },
+        "categories": {
+            "auth": {
+                "boyaki3a8547f6": {}
+            }
         }
     }
 }
