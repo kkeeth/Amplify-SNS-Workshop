@@ -6,34 +6,48 @@
         alt="AWS Amplify"
       />
     </div>
-    <h1>Welcome to the { props.title }</h1>
+    <h1>{ props.title }</h1>
   </div>
   <div class="app-body">
-    <h1>Mutation Results</h1>
-    <button id="MutationEventButton">Add data</button>
-    <div id="MutationResult"></div>
-    <hr />
-
-    <h1>Query Results</h1>
-    <div id="QueryResult"></div>
-    <hr />
-
-    <h1>Subscription Results</h1>
-    <div id="SubscriptionResult"></div>
+    <button onclick={ signInWithGoogle }>Sign in with Google</button>
+    <button onclick={ signIn }>Sign in</button>
+    <button onclick={ checkUser }>Check User</button>
   </div>
 
   <script>
-    import Amplify, { Auth } from 'aws-amplify'
-    import awsconfig from './aws-exports'
+    import { Auth } from 'aws-amplify';
 
     export default {
-      signUpConfig: {
-        hiddenDefaults: ['phone_number']
+      signInWithGoogle(e) {
+        Auth.federatedSignIn({ provider: "Google" });
       },
-      username: "",
-      password: "",
-      onMounted(props, state) {
+      signIn(e) {
+        Auth.federatedSignIn();
+      },
+      checkUser() {
+        Auth.currentAuthenticatedUser()
+          .then((user) => console.log("user", user))
+          .catch(e => console.log(e))
       }
     }
   </script>
+
+  <style>
+    button {
+      background-color: #ff9900;
+      font-size: 14px;
+      color: white;
+      text-transform: uppercase;
+      padding: 1em;
+      border: none;
+      border-radius: 8px;
+    }
+    button + button {
+      margin-left: 10px;
+    }
+    button:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  </style>
 </app>
