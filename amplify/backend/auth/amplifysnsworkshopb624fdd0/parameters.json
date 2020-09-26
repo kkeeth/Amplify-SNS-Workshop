@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "boyaki3a8547f6_identitypool_3a8547f6",
+    "identityPoolName": "amplifysnsworkshopb624fdd0_identitypool_b624fdd0",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "boyaki3a8547f6",
-    "userPoolName": "boyaki3a8547f6_userpool_3a8547f6",
+    "resourceNameTruncated": "amplifb624fdd0",
+    "userPoolName": "amplifysnsworkshopb624fdd0_userpool_b624fdd0",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,9 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "boyaki3a8547f6_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "amplifb624fdd0_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "boyaki3a8547f6",
+    "sharedId": "b624fdd0",
+    "resourceName": "amplifysnsworkshopb624fdd0",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -44,7 +45,15 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
+    "hostedUIDomainName": "amplifysnsworkshopb624fdd0-b624fdd0",
+    "authProvidersUserPool": [
+        "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
     "userPoolGroupList": [],
+    "serviceName": "Cognito",
     "dependsOn": []
 }
