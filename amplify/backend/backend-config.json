@@ -1,27 +1,27 @@
 {
-  "auth": {
-    "amplifysnsworkshopb624fdd0": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
-  "api": {
-    "AmplifySNSWorkshopGQL": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authamplifysnsworkshopb624fdd0"
-            }
-          },
-          "additionalAuthenticationProviders": []
-        }
-      }
-    }
-  }
+	"auth": {
+		"amplifysnsworkshopb624fdd0": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
+	"api": {
+		"AmplifySNSWorkshopGQL": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authamplifysnsworkshopb624fdd0"
+						}
+					},
+					"additionalAuthenticationProviders": []
+				}
+			}
+		}
+	}
 }

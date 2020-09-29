@@ -1,20 +1,20 @@
 {
-  "prod": {
+  "master": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplifysnsworkshop-prod-230212-authRole",
-      "UnauthRoleArn": "arn:aws:iam::531660037564:role/amplify-amplifysnsworkshop-prod-230212-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::531660037564:role/amplify-amplifysnsworkshop-prod-230212-authRole",
+      "AuthRoleName": "amplify-amplifysnsworkshop-master-221132-authRole",
+      "UnauthRoleArn": "arn:aws:iam::531660037564:role/amplify-amplifysnsworkshop-master-221132-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::531660037564:role/amplify-amplifysnsworkshop-master-221132-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-amplifysnsworkshop-prod-230212-deployment",
-      "UnauthRoleName": "amplify-amplifysnsworkshop-prod-230212-unauthRole",
-      "StackName": "amplify-amplifysnsworkshop-prod-230212",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:531660037564:stack/amplify-amplifysnsworkshop-prod-230212/e11f3190-0000-11eb-8d17-0675f10d3030",
+      "DeploymentBucketName": "amplify-amplifysnsworkshop-master-221132-deployment",
+      "UnauthRoleName": "amplify-amplifysnsworkshop-master-221132-unauthRole",
+      "StackName": "amplify-amplifysnsworkshop-master-221132",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:531660037564:stack/amplify-amplifysnsworkshop-master-221132/4bfefd50-0255-11eb-858e-0ea0aef9ef68",
       "AmplifyAppId": "d2ro2br8k6esje"
     },
     "categories": {
       "auth": {
         "amplifysnsworkshopb624fdd0": {
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"112565090682-ns0ni1sfdgpfiis6tjppfpf4kvba67dn.apps.googleusercontent.com\",\"client_secret\":\"4Ii2vxh-yJbDgqQA_PskJLc3\"}]"
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"961285486145-t32shrmdbe0921ounnan243e53emcdg8.apps.googleusercontent.com\",\"client_secret\":\"PccORH3iVmbyQ65s4J2ee0qU\"}]"
         }
       }
     }
