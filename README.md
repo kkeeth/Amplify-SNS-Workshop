@@ -1,1 +1,1 @@
-# Amplify-SNS-Workshop
+# Amplify-SNS-Workshop with RiotJS
