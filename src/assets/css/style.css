@@ -1,7 +1,12 @@
 html,
 body {
-  font-family: "Amazon Ember", "Helvetica", "sans-serif";
+  font-family: 'Amazon Ember', 'Helvetica', 'sans-serif';
   margin: 0;
+}
+*,
+::before,
+::after {
+  box-sizing: border-box;
 }
 a {
   color: #ff9900;
