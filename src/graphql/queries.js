@@ -9,8 +9,6 @@ export const getPost = /* GraphQL */ `
       content
       owner
       timestamp
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -27,8 +25,6 @@ export const listPosts = /* GraphQL */ `
         content
         owner
         timestamp
-        createdAt
-        updatedAt
       }
       nextToken
     }

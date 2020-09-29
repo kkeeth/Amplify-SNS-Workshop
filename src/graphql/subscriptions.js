@@ -9,8 +9,6 @@ export const onCreatePost = /* GraphQL */ `
       content
       owner
       timestamp
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -22,8 +20,6 @@ export const onUpdatePost = /* GraphQL */ `
       content
       owner
       timestamp
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -35,8 +31,6 @@ export const onDeletePost = /* GraphQL */ `
       content
       owner
       timestamp
-      createdAt
-      updatedAt
     }
   }
 `;
