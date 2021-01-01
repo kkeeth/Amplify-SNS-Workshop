@@ -1,0 +1,173 @@
+<sidebar>
+  <Drawer
+    className={classes.drawer}
+    variant="permanent"
+    classes={{
+      paper: classes.drawerPaper,
+    }}
+    anchor="left"
+  >
+    <div className={classes.toolbar} />
+    <List>
+      <ListItem
+        button
+        selected={activeListItem === 'global-timeline'}
+        onclick={() => {
+          Auth.currentAuthenticatedUser().then((user) => {
+            history.push('/global-timeline');
+          })
+        }}
+        key='global-timeline'
+      >
+        <ListItemIcon>
+          <PublicIcon />
+        </ListItemIcon>
+        <ListItemText primary="Global Timeline" />
+      </ListItem>
+      <ListItem
+        button
+        selected={activeListItem === 'profile'}
+        onclick={() => {
+          Auth.currentAuthenticatedUser().then((user) => {
+            history.push('/' + user.username);
+          })
+        }}
+        key='profile'
+      >
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="Profile" />
+      </ListItem>
+      <ListItem key='post-input-field'>
+        <ListItemText primary={
+          <TextField
+            error={isError}
+            helperText={helperText}
+            id="post-input"
+            label="Type your post!"
+            multiline
+            rowsMax="8"
+            variant="filled"
+            value={value}
+            onchange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+        } />
+      </ListItem>
+      <ListItem key='post-button'>
+        <ListItemText primary={
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isError}
+            onclick={onPost}
+            fullWidth
+          >
+            Post
+          </Button>
+        } />
+      </ListItem>
+      <ListItem key='logout'>
+        <ListItemText primary={
+          <Button
+            variant="outlined"
+            onclick={signOut}
+            fullWidth
+          >
+            Logout
+          </Button>
+        } />
+      </ListItem>
+    </List>
+  </Drawer>
+
+  <script>
+    import { makeStyles } from '@material-ui/core/styles'
+    import {
+      Button,
+      Drawer,
+      List,
+      ListItem,
+      ListItemText,
+      TextField,
+      ListItemIcon,
+    } from '@material-ui/core'
+    import {
+      Person as PersonIcon,
+      Public as PublicIcon,
+    } from '@material-ui/icons'
+
+    import API, { graphqlOperation } from '@aws-amplify/api'
+    import Auth from '@aws-amplify/auth'
+
+    import { createPost } from '../graphql/mutations'
+    import { useHistory } from 'react-router';
+
+    export default {
+      drawerWidth: 340,
+      MAX_POST_CONTENT_LENGTH: 140,
+      classes: this.useStyles(),
+      state: {
+        value: '',
+        isError: false
+      },
+      useStyles() {
+        return makeStyles(theme => ({
+          drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+            position: 'relative',
+          },
+          drawerPaper: {
+            width: drawerWidth,
+            position: 'relative',
+          },
+          toolbar: theme.mixins.toolbar,
+          textField: {
+            width: drawerWidth,
+          },
+          list: {
+            // overflowWrap: 'break-word',
+            width: 300,
+          },
+        }))
+      },
+      setValue(val) {
+        this.state.value = val
+      },
+      handleChange(e) {
+        this.setValue(e.target.value)
+        if (e.target.value.length > this.MAX_POST_CONTENT_LENGTH) {
+          this.setIsError(true)
+          this.setHelperText(this.MAX_POST_CONTENT_LENGTH - e.target.value.length)
+        } else {
+          this.setIsError(false)
+          this.setHelperText('')
+        }
+      },
+      setIsError() {
+        this.state.isError = true
+      },
+      setHelperText(val) {
+        this.state.helperText = val
+      }
+      async onPost() {
+        const res = await API.graphql(graphqlOperation(createPost, { input: {
+          type: 'post',
+          content: value,
+          timestamp: Math.floor(Date.now() / 1000),
+        }})
+
+        console.log(res)
+        this.setValue('')
+      },
+      signOut() {
+        Auth.signOut()
+          .then(data => console.log(data))
+          .catch(err => console.log(err))
+      }
+    }
+  </script>
+</sidebar>
