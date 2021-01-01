@@ -9,15 +9,37 @@
     <h1>{ props.title }</h1>
   </div>
   <div class="app-body">
-    <button onclick={ signInWithGoogle }>Sign in with Google</button>
-    <button onclick={ signIn }>Sign in/Sign up</button>
-    <button onclick={ checkUser }>Check User</button>
+    <div>
+      <div class="body-root">
+        <router base={ base }>
+          <route path='/'>
+            <div class="button-group">
+              <button onclick={ signInWithGoogle }>Sign in with Google</button>
+              <button onclick={ signIn }>Sign in/Sign up</button>
+              <button onclick={ checkUser }>Check User</button>
+            </div>
+          </route>
+          <route path='/all-posts'>
+            <all-posts />
+          </route>
+          <route path='/:userId'>
+            <posts-by-specified-user />
+          </route>
+          <Redirect path="*" to="/" />
+        </router>
+      </div>
+    </div>
   </div>
 
   <script>
     import { Auth } from 'aws-amplify';
+    import AllPosts from './pages/all-posts.riot';
 
     export default {
+      components: {
+        AllPosts
+      },
+      base: window.location.origin,
       signInWithGoogle(e) {
         Auth.federatedSignIn({ provider: "Google" });
       },
