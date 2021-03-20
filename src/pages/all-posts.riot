@@ -1,3 +1,102 @@
 <all-posts>
-  <h2>All Posts</h2>
+  <h1>My Notes App</h1>
+  <input
+    oninput={ handleInputName }
+    placeholder="Note name"
+    value={ state.formData.name }
+  />
+  <input
+    oninput={ handleInputDescription }
+    placeholder="Note description"
+    value={ state.formData.description }
+  />
+  <button onclick={ createNote }>Create Note</button>
+  <div style="margin-bottom: 30px">
+    <div class="note" each={ note in state.notes } key={ note.id || note.name }>
+      <h2>{ note.name }</h2>
+      <p>{ note.description }</p>
+      <button onclick={ deleteNote }>Delete note</button>
+      <hr />
+    </div>
+  </div>
+
+  <script>
+    import { API } from 'aws-amplify'
+    import { listNotes } from '../graphql/queries'
+    import {
+      createNote as createNoteMutation,
+      deleteNote as deleteNoteMutation
+    } from '../graphql/mutations'
+
+    const initialFormState = {
+      name: '',
+      description: ''
+    }
+
+    export default {
+      state: {
+        formData: initialFormState,
+        notes: []
+      },
+      onBeforeMount() {
+        API.graphql({
+          query: listNotes
+        })
+        .then(apiData => {
+          this.update({
+            notes: apiData.data.listNotes.items
+          })
+        })
+      },
+      createNote() {
+        if (!this.state.formData.name || !this.state.formData.description) return
+
+        API.graphql({
+          query: createNoteMutation,
+          variables: {
+            input: this.state.formData
+          }
+        })
+        .then(e => {
+          this.update({
+            notes: [ ...this.state.notes, this.state.formData ]
+          })
+          this.setFormData(initialFormState)
+        })
+      },
+      deleteNote({ id }) {
+        const newNotesArray = this.state.notes.filter(note => note.id !== id)
+        this.note = newNotesArray
+        API.graphql({
+          query: deleteNoteMutation,
+          variables: {
+            input: { id }
+          }
+        })
+      },
+      setFormData(val) {
+        this.update({
+          formData: val
+        })
+      },
+      handleInputName(e) {
+        this.setFormData({
+          ...this.state.formData,
+          name: e.target.value
+        })
+      },
+      handleInputDescription(e) {
+        this.setFormData({
+          ...this.state.formData,
+          description: e.target.value
+        })
+      }
+    }
+  </script>
+
+  <style>
+    .note + .note {
+      margin-top: 10px;
+    }
+  </style>
 </all-posts>

@@ -16,13 +16,7 @@
             </route>
           </template>
           <template if={ isLoggedIn }>
-            <h1>We now have Auth!</h1>
-            <route path='/all-posts'>
-              <all-posts />
-            </route>
-            <route path='/:userId'>
-              <posts-by-specified-user />
-            </route>
+            <all-posts />
             <Redirect path="*" to="/" />
             <button onclick={ signOut }>Sign out</button>
           </template>
@@ -71,15 +65,6 @@
   </script>
 
   <style>
-    .app-header {
-      color: white;
-      text-align: center;
-      background: linear-gradient(30deg, #f90 55%, #ffc300);
-      width: 100%;
-      margin: 0 0 1em 0;
-      padding: 3rem 0 3rem 0;
-      box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
-    }
     .app-logo {
       width: 126px;
       margin: 0 auto;
@@ -89,7 +74,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: calc(100vh - 290px);
+      padding: 2rem;
+      margin-top: 273px;
     }
     button {
       background-color: #ff9900;
