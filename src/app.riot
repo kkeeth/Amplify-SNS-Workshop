@@ -11,14 +11,15 @@
               <div class="button-group">
                 <button onclick={ signInWithGoogle }>Sign in with Google</button>
                 <button onclick={ signIn }>Sign in/Sign up</button>
-                <button onclick={ checkUser }>Check User</button>
+                <!-- this button for debugging -->
+                <!-- <button onclick={ checkUser }>Check User</button> -->
               </div>
             </route>
           </template>
           <template if={ isLoggedIn }>
             <all-posts />
             <Redirect path="*" to="/" />
-            <button onclick={ signOut }>Sign out</button>
+            <button class="sign-out" onclick={ signOut }>Sign out</button>
           </template>
         </router>
       </div>
@@ -75,11 +76,10 @@
       justify-content: center;
       align-items: center;
       padding: 2rem;
-      margin-top: 273px;
     }
     button {
-      background-color: #ff9900;
-      font-size: 14px;
+      background: #ff9900;
+      font-size: 1rem;
       color: white;
       text-transform: uppercase;
       padding: 1rem;
@@ -91,6 +91,9 @@
     button:hover {
       opacity: 0.8;
       cursor: pointer;
+    }
+    .sign-out {
+      background: #aabbcc;
     }
   </style>
 </app>

@@ -1,17 +1,26 @@
 <all-posts>
   <h1>My Notes App</h1>
-  <input
-    oninput={ handleInputName }
-    placeholder="Note name"
-    value={ state.formData.name }
-  />
-  <input
-    oninput={ handleInputDescription }
-    placeholder="Note description"
-    value={ state.formData.description }
-  />
-  <button onclick={ createNote }>Create Note</button>
-  <div style="margin-bottom: 30px">
+  <div class="form-wrapper">
+    <div class="form-item">
+      Name:
+      <input
+        oninput={ handleInputName }
+        placeholder="Note name"
+        value={ state.formData.name }
+      />
+    </div>
+    <div class="form-item">
+      Description:
+      <input
+        oninput={ handleInputDescription }
+        placeholder="Note description"
+        value={ state.formData.description }
+      />
+    </div>
+    <button onclick={ createNote }>Create Note</button>
+  </div>
+  <hr />
+  <div>
     <div class="note" each={ note in state.notes } key={ note.id || note.name }>
       <h2>{ note.name }</h2>
       <p>{ note.description }</p>
@@ -98,6 +107,21 @@
   </script>
 
   <style>
+    .form-wrapper {
+      display: flex;
+      margin-bottom: 30px;
+    }
+    .form-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-item input {
+      padding: 5px;
+      font-size: 1rem;
+    }
+    .form-item + .form-item {
+      margin: 0 10px;
+    }
     .note + .note {
       margin-top: 10px;
     }
