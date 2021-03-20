@@ -1,12 +1,6 @@
 <app>
   <div class="app-header">
-    <div class="app-logo">
-      <img
-        src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg"
-        alt="AWS Amplify"
-      />
-    </div>
-    <h1>{ props.title }</h1>
+    <app-header title="AWS Amplify Tutorial with Riot.js!" />
   </div>
   <div class="app-body">
     <div>
@@ -38,11 +32,13 @@
   </div>
 
   <script>
-    import { Auth } from 'aws-amplify';
-    import AllPosts from './pages/all-posts.riot';
+    import { Auth } from 'aws-amplify'
+    import AppHeader from './components/app-header.riot'
+    import AllPosts from './pages/all-posts.riot'
 
     export default {
       components: {
+        AppHeader,
         AllPosts
       },
       isLoggedIn: false,

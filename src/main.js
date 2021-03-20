@@ -11,6 +11,4 @@ register('route', Route);
 
 Amplify.configure(awsConfig);
 
-component(App)(document.getElementById("app"), {
-  title: "AWS Amplify Tutorial with Riot.js!",
-});
+component(App)(document.getElementById("app"));
