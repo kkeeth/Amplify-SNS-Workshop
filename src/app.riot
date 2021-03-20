@@ -12,20 +12,26 @@
     <div>
       <div class="body-root">
         <router base={ base }>
-          <route path='/'>
-            <div class="button-group">
-              <button onclick={ signInWithGoogle }>Sign in with Google</button>
-              <button onclick={ signIn }>Sign in/Sign up</button>
-              <button onclick={ checkUser }>Check User</button>
-            </div>
-          </route>
-          <route path='/all-posts'>
-            <all-posts />
-          </route>
-          <route path='/:userId'>
-            <posts-by-specified-user />
-          </route>
-          <Redirect path="*" to="/" />
+          <template if={ !isLoggedIn }>
+            <route path='/'>
+              <div class="button-group">
+                <button onclick={ signInWithGoogle }>Sign in with Google</button>
+                <button onclick={ signIn }>Sign in/Sign up</button>
+                <button onclick={ checkUser }>Check User</button>
+              </div>
+            </route>
+          </template>
+          <template if={ isLoggedIn }>
+            <h1>We now have Auth!</h1>
+            <route path='/all-posts'>
+              <all-posts />
+            </route>
+            <route path='/:userId'>
+              <posts-by-specified-user />
+            </route>
+            <Redirect path="*" to="/" />
+            <button onclick={ signOut }>Sign out</button>
+          </template>
         </router>
       </div>
     </div>
@@ -39,17 +45,31 @@
       components: {
         AllPosts
       },
+      isLoggedIn: false,
       base: window.location.origin,
+      onBeforeMount() {
+        this.checkUser()
+      },
       signInWithGoogle(e) {
-        Auth.federatedSignIn({ provider: "Google" });
+        Auth.federatedSignIn({ provider: "Google" })
       },
       signIn(e) {
-        Auth.federatedSignIn();
+        Auth.federatedSignIn()
+      },
+      signOut() {
+        Auth.signOut()
       },
       checkUser() {
         Auth.currentAuthenticatedUser()
-          .then((user) => console.log("user", user))
-          .catch(e => console.log(e))
+          .then((user) => {
+            console.log("user", user)
+            this.isLoggedIn = true
+            this.update()
+          })
+          .catch(e => {
+            console.log(e)
+            this.isLoggedIn = false
+          })
       }
     }
   </script>
