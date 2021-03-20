@@ -10,17 +10,17 @@
     "build": "parcel build index.html --out-dir=dist"
   },
   "dependencies": {
-    "@aws-amplify/ui-components": "^0.5.4",
-    "@material-ui/core": "^4.11.1",
-    "@material-ui/icons": "^4.9.1",
+    "@aws-amplify/ui-components": "^1.1.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@riotjs/route": "^7.0.0",
-    "aws-amplify": "^3.3.2",
-    "date-fns": "^2.16.1",
-    "riot": "^4.13.2"
+    "aws-amplify": "^3.3.25",
+    "date-fns": "^2.19.0",
+    "riot": "^5.3.1"
   },
   "devDependencies": {
-    "@riotjs/hot-reload": "^4.0.1",
-    "@riotjs/parcel-plugin-riot": "^4.0.1",
-    "parcel-bundler": "^1.12.4"
+    "@riotjs/hot-reload": "^5.0.0",
+    "@riotjs/parcel-plugin-riot": "^5.0.1",
+    "parcel-bundler": "^1.12.5"
   }
 }
