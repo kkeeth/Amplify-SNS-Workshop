@@ -10,6 +10,7 @@ export const createNote = /* GraphQL */ `
       id
       name
       description
+      image
     }
   }
 `;
@@ -22,6 +23,7 @@ export const updateNote = /* GraphQL */ `
       id
       name
       description
+      image
     }
   }
 `;
@@ -34,6 +36,7 @@ export const deleteNote = /* GraphQL */ `
       id
       name
       description
+      image
     }
   }
 `;

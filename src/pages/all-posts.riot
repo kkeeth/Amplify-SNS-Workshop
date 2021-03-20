@@ -48,6 +48,9 @@
         notes: []
       },
       onBeforeMount() {
+        this.fetchNotes()
+      },
+      fetchNotes() {
         API.graphql({
           query: listNotes
         })
@@ -102,6 +105,17 @@
           ...this.state.formData,
           description: e.target.value
         })
+      },
+      onChange(e) {
+        if (!e.target.files[0]) return
+
+        const file = e.target.files[0]
+        this.setFormData({
+          ...this.state.formData,
+          image: file.name
+        })
+        Storage.put(file.name, file)
+        this.fetchNotes()
       }
     }
   </script>

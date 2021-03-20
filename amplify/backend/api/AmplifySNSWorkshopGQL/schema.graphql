@@ -2,6 +2,7 @@ type Note @model {
   id: ID!
   name: String!
   description: String
+  image: String
 }
 # type Post
 #   @model(subscriptions: { level: public })

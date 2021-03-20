@@ -7,6 +7,7 @@ export const getNote = /* GraphQL */ `
       id
       name
       description
+      image
     }
   }
 `;
@@ -21,6 +22,7 @@ export const listNotes = /* GraphQL */ `
         id
         name
         description
+        image
       }
       nextToken
     }
