@@ -5,29 +5,24 @@
   <div class="app-body">
     <div>
       <div class="body-root">
-        <router base={ base }>
-          <template if={ !isLoggedIn }>
-            <route path='/'>
-              <div class="button-group">
-                <button onclick={ signInWithGoogle }>Sign in with Google</button>
-                <button onclick={ signIn }>Sign in/Sign up</button>
-                <!-- this button for debugging -->
-                <!-- <button onclick={ checkUser }>Check User</button> -->
-              </div>
-            </route>
-          </template>
-          <template if={ isLoggedIn }>
-            <all-posts />
-            <Redirect path="*" to="/" />
-            <button class="sign-out" onclick={ signOut }>Sign out</button>
-          </template>
-        </router>
+        <template if={ !isLoggedIn }>
+          <div class="button-group">
+            <button onclick={ signInWithGoogle }>Sign in with Google</button>
+            <button onclick={ signIn }>Sign in/Sign up</button>
+            <!-- this button for debugging -->
+            <!-- <button onclick={ checkUser }>Check User</button> -->
+          </div>
+        </template>
+        <template if={ isLoggedIn }>
+          <all-posts />
+          <button class="sign-out" onclick={ signOut }>Sign out</button>
+        </template>
       </div>
     </div>
   </div>
 
   <script>
-    import { Auth, Storage } from 'aws-amplify'
+    import { Auth } from 'aws-amplify'
     import AppHeader from './components/app-header.riot'
     import AllPosts from './pages/all-posts.riot'
 

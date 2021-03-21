@@ -17,20 +17,28 @@
         value={ state.formData.description }
       />
     </div>
+    <div class="form-item">
+      Image:
+      <input
+        type="file"
+        onchange={ handleSelectImage }
+      />
+    </div>
     <button onclick={ createNote }>Create Note</button>
   </div>
   <hr />
   <div>
-    <div class="note" each={ note in state.notes } key={ note.id || note.name }>
+    <div class="note" each={ (note, index) in state.notes } key={ index }>
       <h2>{ note.name }</h2>
       <p>{ note.description }</p>
       <button value={ note.id } onclick={ deleteNote }>Delete note</button>
+      <img if={ note.image } src={ note.image } width=400 />
       <hr />
     </div>
   </div>
 
   <script>
-    import { API } from 'aws-amplify'
+    import { API, Storage } from 'aws-amplify'
     import { listNotes } from '../graphql/queries'
     import {
       createNote as createNoteMutation,
@@ -55,24 +63,44 @@
           query: listNotes
         })
         .then(apiData => {
-          this.update({
-            notes: apiData.data.listNotes.items
+          const notesFromAPI = apiData.data.listNotes.items
+
+          // Only image data will have a Promise object set
+          notesFromAPI.map(note => {
+            if (note.image) {
+              Storage
+                .get(note.image)
+                .then(image => {
+                  note.image = image
+                })
+            }
+            return note
           })
+          this.state.notes = apiData.data.listNotes.items
+          setTimeout(() => {
+            this.update()
+          }, 300)
         })
       },
       createNote() {
-        if (!this.state.formData.name || !this.state.formData.description) return
+        const formData = this.state.formData
+        if (!formData.name || !formData.description) return
 
         API.graphql({
           query: createNoteMutation,
           variables: {
-            input: this.state.formData
+            input: formData
           }
         })
         .then(e => {
-          this.update({
-            notes: [ ...this.state.notes, this.state.formData ]
-          })
+          if (formData.image) {
+            Storage
+              .get(formData.image)
+              .then(image => {
+                formData.image = image
+              })
+          }
+          this.setNotes(formData)
           this.setFormData(initialFormState)
         })
       },
@@ -88,6 +116,13 @@
         .then(() => this.update({
           notes: newNotesArray
         }))
+      },
+      setNotes(val) {
+        setTimeout(() => {
+          this.update({
+            notes: [ ...this.state.notes, val || null ]
+          })
+        }, 300)
       },
       setFormData(val) {
         this.update({
@@ -106,7 +141,7 @@
           description: e.target.value
         })
       },
-      onChange(e) {
+      handleSelectImage(e) {
         if (!e.target.files[0]) return
 
         const file = e.target.files[0]
