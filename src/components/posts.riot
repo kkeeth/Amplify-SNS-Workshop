@@ -1,0 +1,48 @@
+<posts>
+  <div class="note" each={ (note, index) in props.notes } key={ index }>
+    <div class="note-body">
+      <h2>{ note.name }</h2>
+      <p>{ note.description }</p>
+      <img if={ note.image } src={ note.image } width="400" />
+    </div>
+    <delete-button
+      value={ note.id }
+      on-click={ deleteNote }
+      name="Delete note"
+    />
+  </div>
+
+  <script>
+    import DeleteButton from './buttons/delete-button.riot'
+
+    export default {
+      components: {
+        DeleteButton
+      },
+      deleteNote(e) {
+        const id = e.target.value
+        const newNotesArray = this.state.notes.filter(note => note.id !== id)
+        API.graphql({
+          query: deleteNoteMutation,
+          variables: {
+            input: { id }
+          }
+        })
+        .then(() => this.update({
+          notes: newNotesArray
+        }))
+      }
+    }
+  </script>
+  <style>
+    .note {
+      padding: 10px;
+      border-bottom: 1px solid lightgray;
+    }
+    .note-body {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+    }
+  </style>
+</posts>

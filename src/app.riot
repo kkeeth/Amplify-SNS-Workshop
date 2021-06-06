@@ -3,21 +3,19 @@
     <app-header title="AWS Amplify Tutorial with Riot.js!" />
   </div>
   <div class="app-body">
-    <div>
-      <div class="body-root">
-        <template if={ !isLoggedIn }>
-          <div class="button-group">
-            <button onclick={ signInWithGoogle }>Sign in with Google</button>
-            <button onclick={ signIn }>Sign in/Sign up</button>
-            <!-- this button for debugging -->
-            <!-- <button onclick={ checkUser }>Check User</button> -->
-          </div>
-        </template>
-        <template if={ isLoggedIn }>
-          <all-posts />
-          <detault-button active={ false } on-click={ signOut } name="Sign out" />
-        </template>
-      </div>
+    <div class="body-root">
+      <template if={ !isLoggedIn }>
+        <div class="button-group">
+          <button onclick={ signInWithGoogle }>Sign in with Google</button>
+          <button onclick={ signIn }>Sign in/Sign up</button>
+          <!-- this button for debugging -->
+          <!-- <button onclick={ checkUser }>Check User</button> -->
+        </div>
+      </template>
+      <template if={ isLoggedIn }>
+        <all-posts />
+        <detault-button active={ false } on-click={ signOut } name="Sign out" />
+      </template>
     </div>
   </div>
 
@@ -68,12 +66,9 @@
       margin: 0 auto;
     }
     .app-body {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 70%;
       padding: 2rem;
-      margin-top: 273px;
+      margin: 273px auto 0;
     }
   </style>
 </app>
