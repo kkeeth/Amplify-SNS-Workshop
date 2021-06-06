@@ -21,18 +21,32 @@
       Image:
       <input
         type="file"
+        accept="image/*"
         onchange={ handleSelectImage }
       />
     </div>
-    <button onclick={ createNote }>Create Note</button>
   </div>
+  <default-button
+    on-click={ createNote }
+    name="Create Note"
+    active={ state.isActive }
+    disabled={ state.isActive }
+  />
+  <cancel-button
+    on-click={ clear }
+    name="Cancel"
+  />
   <hr />
   <div>
     <div class="note" each={ (note, index) in state.notes } key={ index }>
       <h2>{ note.name }</h2>
       <p>{ note.description }</p>
-      <button value={ note.id } onclick={ deleteNote }>Delete note</button>
-      <img if={ note.image } src={ note.image } width=400 />
+      <img if={ note.image } src={ note.image } width="400" />
+      <delete-button
+        value={ note.id }
+        on-click={ deleteNote }
+        name="Delete note"
+      />
       <hr />
     </div>
   </div>
@@ -44,6 +58,9 @@
       createNote as createNoteMutation,
       deleteNote as deleteNoteMutation
     } from '../graphql/mutations'
+    import DefaultButton from '../components/buttons/default-button.riot'
+    import DeleteButton from '../components/buttons/delete-button.riot'
+    import CancelButton from '../components/buttons/cancel-button.riot'
 
     const initialFormState = {
       name: '',
@@ -53,7 +70,13 @@
     export default {
       state: {
         formData: initialFormState,
-        notes: []
+        notes: [],
+        isActive: false
+      },
+      components: {
+        DefaultButton,
+        DeleteButton,
+        CancelButton
       },
       onBeforeMount() {
         this.fetchNotes()
@@ -129,17 +152,24 @@
           formData: val
         })
       },
+      clear() {
+        this.update({
+          formData: initialFormState
+        })
+      },
       handleInputName(e) {
         this.setFormData({
           ...this.state.formData,
           name: e.target.value
         })
+        this.checkActive()
       },
       handleInputDescription(e) {
         this.setFormData({
           ...this.state.formData,
           description: e.target.value
         })
+        this.checkActive()
       },
       handleSelectImage(e) {
         if (!e.target.files[0]) return
@@ -151,6 +181,12 @@
         })
         Storage.put(file.name, file)
         this.fetchNotes()
+      },
+      checkActive() {
+        const { name, description } = this.state.formData
+        if (name !== '' && description !== '') this.state.isActive = true
+        else this.state.isActive = false
+        this.update()
       }
     }
   </script>
@@ -158,6 +194,7 @@
   <style>
     .form-wrapper {
       display: flex;
+      flex-direction: column;
       margin-bottom: 30px;
     }
     .form-item {
@@ -169,10 +206,13 @@
       font-size: 1rem;
     }
     .form-item + .form-item {
-      margin: 0 10px;
+      margin: 15px 0 0;
     }
     .note + .note {
       margin-top: 10px;
+    }
+    cancel-button {
+      margin-left: 10px;
     }
   </style>
 </all-posts>

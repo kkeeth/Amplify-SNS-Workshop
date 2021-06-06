@@ -1,0 +1,10 @@
+<default-button>
+  <button class={ !props.active && 'non-active' } onclick={ props.onClick }>{ props.name }</button>
+
+  <style>
+    .non-active {
+      background: #aabbcc;
+      border: 1px solid #aabbcc;
+    }
+  </style>
+</default-button>

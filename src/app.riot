@@ -15,7 +15,7 @@
         </template>
         <template if={ isLoggedIn }>
           <all-posts />
-          <button class="sign-out" onclick={ signOut }>Sign out</button>
+          <detault-button active={ false } on-click={ signOut } name="Sign out" />
         </template>
       </div>
     </div>
@@ -25,11 +25,13 @@
     import { Auth } from 'aws-amplify'
     import AppHeader from './components/app-header.riot'
     import AllPosts from './pages/all-posts.riot'
+    import DefaultButton from './components/buttons/default-button.riot'
 
     export default {
       components: {
         AppHeader,
-        AllPosts
+        AllPosts,
+        DefaultButton
       },
       isLoggedIn: false,
       base: window.location.origin,
@@ -72,24 +74,6 @@
       align-items: center;
       padding: 2rem;
       margin-top: 273px;
-    }
-    button {
-      background: #ff9900;
-      font-size: 1rem;
-      color: white;
-      text-transform: uppercase;
-      padding: 1rem;
-      border: none;
-    }
-    button + button {
-      margin-left: 10px;
-    }
-    button:hover {
-      opacity: 0.8;
-      cursor: pointer;
-    }
-    .sign-out {
-      background: #aabbcc;
     }
   </style>
 </app>

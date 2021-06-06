@@ -22,3 +22,15 @@ hr {
 .app {
   width: 100%;
 }
+button {
+  background: #ff9900;
+  font-size: 0.8rem;
+  color: white;
+  text-transform: uppercase;
+  padding: 1rem;
+  border: 1px solid #ff9900;
+}
+button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
