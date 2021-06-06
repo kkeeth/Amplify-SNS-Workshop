@@ -33,7 +33,7 @@
     disabled={ state.isActive }
   />
   <cancel-button
-    on-click={ clear }
+    on-click={ handleClear }
     name="Cancel"
   />
   <hr />
@@ -127,7 +127,7 @@
           formData: val
         })
       },
-      clear() {
+      handleClear() {
         this.update({
           formData: initialFormState,
           isActive: false
