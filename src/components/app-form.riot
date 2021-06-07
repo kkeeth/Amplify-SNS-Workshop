@@ -1,7 +1,7 @@
 <app-form>
   <div class="form-wrapper">
     <div class="form-item">
-      Name:
+      <p class="label">Name:</p>
       <input
         oninput={ handleInputName }
         placeholder="Note name"
@@ -9,7 +9,7 @@
       />
     </div>
     <div class="form-item">
-      Description:
+      <p class="label">Description:</p>
       <input
         oninput={ handleInputDescription }
         placeholder="Note description"
@@ -37,12 +37,14 @@
   />
 
   <script>
+    import { Storage } from 'aws-amplify'
     import DefaultButton from '../components/buttons/default-button.riot'
     import CancelButton from '../components/buttons/cancel-button.riot'
 
     const initialFormState = {
       name: '',
-      description: ''
+      description: '',
+      image: ''
     }
 
     export default {
@@ -54,11 +56,16 @@
         formData: initialFormState,
         isActive: false
       },
+      onMounted() {
+        this.props.observable.on('clear form', () => this.handleClear())
+      },
       createNote(e) {
         e.preventDefault()
 
-console.log(e.target)
-        // if (e.target.)
+        const formData = this.state.formData
+        if (!formData.name || !formData.description) return
+
+        this.props.observable.trigger('create note', formData)
       },
       handleInputName(e) {
         this.setFormData({
@@ -81,7 +88,15 @@ console.log(e.target)
         })
       },
       handleSelectImage(e) {
-        //
+        if (!e.target.files[0]) return
+
+        const file = e.target.files[0]
+        this.setFormData({
+          ...this.state.formData,
+          image: file.name
+        })
+        Storage.put(file.name, file)
+        // this.fetchNotes()
       },
       setFormData(val) {
         this.update({
@@ -96,4 +111,14 @@ console.log(e.target)
       }
     }
   </script>
+
+  <style>
+    .label {
+      margin-bottom: 4px;
+    }
+    .label::before {
+      color: red;
+      content: '*';
+    }
+  </style>
 </app-form>
