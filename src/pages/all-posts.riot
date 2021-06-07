@@ -90,20 +90,6 @@
           formData: val
         })
       },
-      handleInputName(e) {
-        this.setFormData({
-          ...this.state.formData,
-          name: e.target.value
-        })
-        this.checkActive()
-      },
-      handleInputDescription(e) {
-        this.setFormData({
-          ...this.state.formData,
-          description: e.target.value
-        })
-        this.checkActive()
-      },
       handleSelectImage(e) {
         if (!e.target.files[0]) return
 
