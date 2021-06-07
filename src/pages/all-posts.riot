@@ -1,43 +1,8 @@
 <all-posts>
   <h1>My Notes App</h1>
-  <div class="form-wrapper">
-    <div class="form-item">
-      Name:
-      <input
-        oninput={ handleInputName }
-        placeholder="Note name"
-        value={ state.formData.name }
-      />
-    </div>
-    <div class="form-item">
-      Description:
-      <input
-        oninput={ handleInputDescription }
-        placeholder="Note description"
-        value={ state.formData.description }
-      />
-    </div>
-    <div class="form-item">
-      Image:
-      <input
-        type="file"
-        accept="image/*"
-        onchange={ handleSelectImage }
-      />
-    </div>
-  </div>
-  <default-button
-    on-click={ createNote }
-    name="Create Note"
-    active={ state.isActive }
-    disabled={ state.isActive }
-  />
-  <cancel-button
-    on-click={ handleClear }
-    name="Cancel"
-  />
+  <app-form />
   <hr />
-  <posts notes={ state.notes } />
+  <post-list notes={ state.notes } />
 
   <script>
     import { API, Storage } from 'aws-amplify'
@@ -46,9 +11,8 @@
       createNote as createNoteMutation,
       deleteNote as deleteNoteMutation
     } from '../graphql/mutations'
-    import DefaultButton from '../components/buttons/default-button.riot'
-    import CancelButton from '../components/buttons/cancel-button.riot'
-    import Posts from '../components/posts.riot'
+    import AppForm from '../components/app-form.riot'
+    import PostList from '../components/post-list.riot'
 
     const initialFormState = {
       name: '',
@@ -62,9 +26,8 @@
         isActive: false
       },
       components: {
-        DefaultButton,
-        CancelButton,
-        Posts
+        AppForm,
+        PostList
       },
       onBeforeMount() {
         this.fetchNotes()
@@ -125,12 +88,6 @@
       setFormData(val) {
         this.update({
           formData: val
-        })
-      },
-      handleClear() {
-        this.update({
-          formData: initialFormState,
-          isActive: false
         })
       },
       handleInputName(e) {

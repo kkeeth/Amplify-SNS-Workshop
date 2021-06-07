@@ -1,0 +1,62 @@
+<app-form>
+  <div class="form-wrapper">
+    <div class="form-item">
+      Name:
+      <input
+        oninput={ handleInputName }
+        placeholder="Note name"
+        value={ state.formData.name }
+      />
+    </div>
+    <div class="form-item">
+      Description:
+      <input
+        oninput={ handleInputDescription }
+        placeholder="Note description"
+        value={ state.formData.description }
+      />
+    </div>
+    <div class="form-item">
+      Image:
+      <input
+        type="file"
+        accept="image/*"
+        onchange={ handleSelectImage }
+      />
+    </div>
+  </div>
+  <default-button
+    on-click={ createNote }
+    name="Create Note"
+    active={ state.isActive }
+    disabled={ state.isActive }
+  />
+  <cancel-button
+    on-click={ handleClear }
+    name="Cancel"
+  />
+
+  <script>
+    import DefaultButton from '../components/buttons/default-button.riot'
+    import CancelButton from '../components/buttons/cancel-button.riot'
+
+    export default {
+      components: {
+        DefaultButton,
+        CancelButton
+      },
+      createNote() {
+//
+      },
+      handleClear() {
+        this.update({
+          formData: initialFormState,
+          isActive: false
+        })
+      },
+      handleSelectImage(e) {
+        //
+      }
+    }
+  </script>
+</app-form>
