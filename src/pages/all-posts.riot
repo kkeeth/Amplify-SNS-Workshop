@@ -1,43 +1,8 @@
 <all-posts>
   <h1>My Notes App</h1>
-  <div class="form-wrapper">
-    <div class="form-item">
-      Name:
-      <input
-        oninput={ handleInputName }
-        placeholder="Note name"
-        value={ state.formData.name }
-      />
-    </div>
-    <div class="form-item">
-      Description:
-      <input
-        oninput={ handleInputDescription }
-        placeholder="Note description"
-        value={ state.formData.description }
-      />
-    </div>
-    <div class="form-item">
-      Image:
-      <input
-        type="file"
-        accept="image/*"
-        onchange={ handleSelectImage }
-      />
-    </div>
-  </div>
-  <default-button
-    on-click={ createNote }
-    name="Create Note"
-    active={ state.isActive }
-    disabled={ state.isActive }
-  />
-  <cancel-button
-    on-click={ handleClear }
-    name="Cancel"
-  />
+  <app-form observable={ obs }/>
   <hr />
-  <posts notes={ state.notes } />
+  <post-list notes={ state.notes } />
 
   <script>
     import { API, Storage } from 'aws-amplify'
@@ -46,28 +11,43 @@
       createNote as createNoteMutation,
       deleteNote as deleteNoteMutation
     } from '../graphql/mutations'
-    import DefaultButton from '../components/buttons/default-button.riot'
-    import CancelButton from '../components/buttons/cancel-button.riot'
-    import Posts from '../components/posts.riot'
-
-    const initialFormState = {
-      name: '',
-      description: ''
-    }
+    import observable from '@riotjs/observable'
+    import AppForm from '../components/app-form.riot'
+    import PostList from '../components/post-list.riot'
 
     export default {
       state: {
-        formData: initialFormState,
         notes: [],
         isActive: false
       },
       components: {
-        DefaultButton,
-        CancelButton,
-        Posts
+        AppForm,
+        PostList
       },
       onBeforeMount() {
+        this.obs = observable(this)
         this.fetchNotes()
+      },
+      onMounted() {
+        this.on('create note', (formData) => {
+          API.graphql({
+            query: createNoteMutation,
+            variables: {
+              input: formData
+            }
+          })
+          .then(e => {
+            if (formData.image) {
+              Storage
+                .get(formData.image)
+                .then(image => {
+                  formData.image = image
+                })
+            }
+            this.setNotes(formData)
+            this.trigger('clear form')
+          })
+        })
       },
       fetchNotes() {
         API.graphql({
@@ -93,76 +73,12 @@
           }, 300)
         })
       },
-      createNote() {
-        const formData = this.state.formData
-        if (!formData.name || !formData.description) return
-
-        API.graphql({
-          query: createNoteMutation,
-          variables: {
-            input: formData
-          }
-        })
-        .then(e => {
-          if (formData.image) {
-            Storage
-              .get(formData.image)
-              .then(image => {
-                formData.image = image
-              })
-          }
-          this.setNotes(formData)
-          this.setFormData(initialFormState)
-        })
-      },
       setNotes(val) {
         setTimeout(() => {
           this.update({
-            notes: [ ...this.state.notes, val || null ]
+            notes: [ val, ...this.state.notes || null ]
           })
         }, 300)
-      },
-      setFormData(val) {
-        this.update({
-          formData: val
-        })
-      },
-      handleClear() {
-        this.update({
-          formData: initialFormState,
-          isActive: false
-        })
-      },
-      handleInputName(e) {
-        this.setFormData({
-          ...this.state.formData,
-          name: e.target.value
-        })
-        this.checkActive()
-      },
-      handleInputDescription(e) {
-        this.setFormData({
-          ...this.state.formData,
-          description: e.target.value
-        })
-        this.checkActive()
-      },
-      handleSelectImage(e) {
-        if (!e.target.files[0]) return
-
-        const file = e.target.files[0]
-        this.setFormData({
-          ...this.state.formData,
-          image: file.name
-        })
-        Storage.put(file.name, file)
-        this.fetchNotes()
-      },
-      checkActive() {
-        const { name, description } = this.state.formData
-        if (name !== '' && description !== '') this.state.isActive = true
-        else this.state.isActive = false
-        this.update()
       }
     }
   </script>

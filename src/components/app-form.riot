@@ -1,0 +1,124 @@
+<app-form>
+  <div class="form-wrapper">
+    <div class="form-item">
+      <p class="label">Name:</p>
+      <input
+        oninput={ handleInputName }
+        placeholder="Note name"
+        value={ state.formData.name }
+      />
+    </div>
+    <div class="form-item">
+      <p class="label">Description:</p>
+      <input
+        oninput={ handleInputDescription }
+        placeholder="Note description"
+        value={ state.formData.description }
+      />
+    </div>
+    <div class="form-item">
+      Image:
+      <input
+        type="file"
+        accept="image/*"
+        onchange={ handleSelectImage }
+      />
+    </div>
+  </div>
+  <default-button
+    on-click={ createNote }
+    name="Create Note"
+    active={ state.isActive }
+    disabled={ state.isActive }
+  />
+  <cancel-button
+    on-click={ handleClear }
+    name="Cancel"
+  />
+
+  <script>
+    import { Storage } from 'aws-amplify'
+    import DefaultButton from '../components/buttons/default-button.riot'
+    import CancelButton from '../components/buttons/cancel-button.riot'
+
+    const initialFormState = {
+      name: '',
+      description: '',
+      image: ''
+    }
+
+    export default {
+      components: {
+        DefaultButton,
+        CancelButton
+      },
+      state: {
+        formData: initialFormState,
+        isActive: false
+      },
+      onMounted() {
+        this.props.observable.on('clear form', () => this.handleClear())
+      },
+      createNote(e) {
+        e.preventDefault()
+
+        const formData = this.state.formData
+        if (!formData.name || !formData.description) return
+
+        this.props.observable.trigger('create note', formData)
+      },
+      handleInputName(e) {
+        this.setFormData({
+          ...this.state.formData,
+          name: e.target.value
+        })
+        this.checkActive()
+      },
+      handleInputDescription(e) {
+        this.setFormData({
+          ...this.state.formData,
+          description: e.target.value
+        })
+        this.checkActive()
+      },
+      handleClear() {
+        this.update({
+          formData: initialFormState,
+          isActive: false
+        })
+      },
+      handleSelectImage(e) {
+        if (!e.target.files[0]) return
+
+        const file = e.target.files[0]
+        this.setFormData({
+          ...this.state.formData,
+          image: file.name
+        })
+        Storage.put(file.name, file)
+        // this.fetchNotes()
+      },
+      setFormData(val) {
+        this.update({
+          formData: val
+        })
+      },
+      checkActive() {
+        const { name, description } = this.state.formData
+        if (name !== '' && description !== '') this.state.isActive = true
+        else this.state.isActive = false
+        this.update()
+      }
+    }
+  </script>
+
+  <style>
+    .label {
+      margin-bottom: 4px;
+    }
+    .label::before {
+      color: red;
+      content: '*';
+    }
+  </style>
+</app-form>
